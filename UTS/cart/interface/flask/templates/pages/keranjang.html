@@ -1,0 +1,30 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+
+<h2>Keranjang Belanja</h2>
+
+<table border="1" cellpadding="5">
+<tr>
+    <th>Produk</th>
+    <th>Harga</th>
+    <th>Jumlah</th>
+    <th>Subtotal</th>
+    <th>Aksi</th>
+</tr>
+
+{% for item in items %}
+<tr>
+    <td>{{ item.nama_produk }}</td>
+    <td>{{ item.harga }}</td>
+    <td>{{ item.jumlah }}</td>
+    <td>{{ item.subtotal }}</td>
+    <td>
+        <a href="/hapus/{{ item.id }}">Hapus</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+<h3>Total: Rp {{ total }}</h3>
+
+{% endblock %}

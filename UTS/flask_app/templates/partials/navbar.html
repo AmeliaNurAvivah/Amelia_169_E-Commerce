@@ -1,0 +1,24 @@
+<header class="navbar">
+    <div class="nav-left">
+        <i class="fa-solid fa-heart logo-icon"></i>
+        <h1 class="logo-text">StyleOfBeauty</h1>
+    </div>
+
+    <!-- 🔍 SEARCH -->
+    <form method="get" action="{{ url_for('main.home') }}" class="nav-search">
+        <input type="text" name="q" placeholder="Cari produk..."
+               value="{{ request.args.get('q','') }}">
+    </form>
+
+    <nav class="nav-menu">
+        <a href="{{ url_for('main.home') }}">
+            <i class="fa fa-house"></i> Home
+        </a>
+        <a href="{{ url_for('main.view_keranjang') }}">
+            <i class="fa fa-cart-shopping"></i> Keranjang
+        </a>
+        <a href="{{ url_for('main.form_tambah_produk') }}" class="btn-nav">
+            <i class="fa fa-plus"></i> Tambah Produk
+        </a>
+    </nav>
+</header>

@@ -1,0 +1,38 @@
+<!-- flask_app/templates/pages/keranjang.html -->
+{% extends 'layouts/base.html' %}
+{% block content %}
+
+<h2 class="section-title">
+    <i class="fa fa-cart-shopping"></i> Keranjang Belanja
+</h2>
+
+{% if keranjang_list|length == 0 %}
+<p class="empty">Keranjang masih kosong</p>
+{% else %}
+
+<table class="cart-table">
+<tr>
+    <th>Produk</th>
+    <th>Jumlah</th>
+    <th>Subtotal</th>
+    <th></th>
+</tr>
+
+{% for k in keranjang_list %}
+<tr>
+    <td>{{ k.nama_produk }}</td>
+    <td>{{ k.jumlah }}</td>
+    <td>Rp {{ '{:,.0f}'.format(k.subtotal) }}</td>
+    <td>
+        <a href="{{ url_for('main.hapus_dari_keranjang', keranjang_id=k.id) }}" class="hapus">
+            <i class="fa fa-trash"></i>
+        </a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+<h3 class="total">Total: Rp {{ '{:,.0f}'.format(total) }}</h3>
+{% endif %}
+
+{% endblock %}

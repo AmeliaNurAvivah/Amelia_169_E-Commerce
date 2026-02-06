@@ -1,0 +1,122 @@
+<!-- flask_app/templates/pages/home.html -->
+{% extends 'layouts/base.html' %}
+{% block content %}
+
+<section class="filter-bar">
+    <!-- KATEGORI (DROPDOWN LANGSUNG) -->
+    <form method="get" action="{{ url_for('main.home') }}">
+        <select name="kategori" onchange="this.form.submit()">
+            <option value="">Semua Kategori</option>
+            {% for k in kategori_list %}
+            <option value="{{ k.id }}"
+                {% if request.args.get('kategori') == k.id|string %}selected{% endif %}>
+                {{ k.nama }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <!-- SIMPAN QUERY LAIN AGAR TIDAK HILANG -->
+        <input type="hidden" name="q" value="{{ request.args.get('q','') }}">
+        <input type="hidden" name="lokasi" value="{{ request.args.get('lokasi','') }}">
+        <input type="hidden" name="min_harga" value="{{ request.args.get('min_harga','') }}">
+        <input type="hidden" name="max_harga" value="{{ request.args.get('max_harga','') }}">
+    </form>
+
+    <!-- FILTER BUTTON -->
+    <button class="btn-pastel" onclick="openFilter()">
+        <i class="fa fa-filter"></i> Filter
+    </button>
+</section>
+
+<section class="product-grid">
+    {% if produk_list|length == 0 %}
+        <p class="empty">
+            <i class="fa fa-box-open"></i><br>
+            Belum ada produk.<br>Silakan tambahkan produk terlebih dahulu.
+        </p>
+    {% endif %}
+
+    {% for p in produk_list %}
+    <div class="product-card">
+        <img src="{{ url_for('static', filename=p.gambar) }}">
+        <h3>{{ p.nama }}</h3>
+        <p class="price">Rp {{ '{:,.0f}'.format(p.harga) }}</p>
+
+        <div class="actions">
+            <a href="{{ url_for('main.detail_produk', produk_id=p.id) }}" class="btn-outline">
+                Detail
+            </a>
+            <form method="post" action="{{ url_for('main.tambah_ke_keranjang', produk_id=p.id) }}">
+                <button class="btn-pastel">
+                    <i class="fa fa-plus"></i> Keranjang
+                </button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</section>
+
+
+<div class="filter-modal" id="filterModal">
+    <form method="get" action="{{ url_for('main.home') }}" class="filter-card">
+
+        <h3>Filter Produk</h3>
+
+   <label>Lokasi</label>
+    <select name="lokasi">
+    <option value="">Semua Lokasi</option>
+    {% for l in lokasi_list %}
+    <option value="{{ l.id }}"
+        {% if request.args.get('lokasi') == l.id|string %}selected{% endif %}>
+        {{ l.nama }}
+    </option>
+    {% endfor %}
+</select>
+  
+        <p><label>Harga Minimum</label>
+        <input type="number" name="min_harga"
+               value="{{ request.args.get('min_harga','') }}">
+
+        <label>Harga Maksimum</label>
+        <input type="number" name="max_harga"
+               value="{{ request.args.get('max_harga','') }}">
+
+        <!-- SIMPAN KATEGORI & SEARCH -->
+        <input type="hidden" name="kategori" value="{{ request.args.get('kategori','') }}">
+        <input type="hidden" name="q" value="{{ request.args.get('q','') }}">
+
+        <div class="filter-actions">
+            <button class="btn-pastel">
+                Terapkan
+            </button>
+            <button type="button" class="btn-outline" onclick="closeFilter()">
+                Batal
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+function openFilter() {
+  document.getElementById('filterModal').style.display = 'block';
+}
+
+function closeFilter() {
+  document.getElementById('filterModal').style.display = 'none';
+}
+
+function applyFilter() {
+  const kategori = document.getElementById('kategori').value;
+  const search = document.getElementById('search').value;
+  const lokasi = document.getElementById('lokasi').value;
+  const hargaMin = document.getElementById('harga_min').value;
+  const hargaMax = document.getElementById('harga_max').value;
+
+  const params = new URLSearchParams({
+    kategori, search, lokasi, harga_min: hargaMin, harga_max: hargaMax
+  });
+
+  window.location.href = `/produk?${params.toString()}`;
+}
+</script>
+{% endblock %}

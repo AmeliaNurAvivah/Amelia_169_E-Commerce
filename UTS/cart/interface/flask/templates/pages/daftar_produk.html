@@ -1,0 +1,16 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+
+<h2>Daftar Produk</h2>
+
+{% for p in produk %}
+<form method="post" action="/tambah">
+    <strong>{{ p.nama }}</strong> - Rp {{ p.harga }}
+    <input type="hidden" name="produk_id" value="{{ p.id }}">
+    <input type="number" name="jumlah" value="1" min="1">
+    <button type="submit">Tambah ke Keranjang</button>
+</form>
+<hr>
+{% endfor %}
+
+{% endblock %}

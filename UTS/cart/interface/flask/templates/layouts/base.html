@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Cart App</title>
+
+    <!-- CSS utama -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='static/css/style.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <h1 class="logo">🛒 Simple Cart</h1>
+        <ul class="nav-menu">
+            <li><a href="{{ url_for('web.daftar_produk') }}">Produk</a></li>
+            <li><a href="{{ url_for('web.keranjang') }}">Keranjang</a></li>
+        </ul>
+    </nav>
+
+    <!-- KONTEN UTAMA -->
+    <main class="container">
+        {% block content %}
+        <!-- isi halaman anak -->
+        {% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2025 – UTS E-Commerce</p>
+    </footer>
+
+</body>
+</html>
