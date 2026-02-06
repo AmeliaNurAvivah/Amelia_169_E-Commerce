@@ -1,0 +1,45 @@
+{% extends "/layouts/base.html" %}
+{% block content %}
+
+<div class="card">
+  <h3 class="page-title">Data Dosen</h3>
+
+  <form action="{{ url_for('main.dosen_tambah') }}" method="post" class="form-card">
+    <input class="input-dark" name="nama" placeholder="Nama Dosen" required>
+    <input class="input-dark" name="ndn" placeholder="NDN">
+    <button type="submit" class="btn-dashboard">Tambah</button>
+  </form>
+
+  <div class="table-container">
+    <table class="table-dark">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nama</th>
+          <th>NDN</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in data %}
+        <tr>
+          <form action="{{ url_for('main.dosen_edit') }}" method="post">
+            <input type="hidden" name="id" value="{{ d.id }}">
+            <td>{{ d.id }}</td>
+            <td><input class="input-dark-small" name="nama" value="{{ d.nama }}"></td>
+            <td><input class="input-dark-small" name="ndn" value="{{ d.ndn }}"></td>
+            <td style="display:flex; gap:6px;">
+              <button class="btn-action">Simpan</button>
+              <a href="{{ url_for('main.dosen_hapus', id=d.id) }}" class="btn-action"
+                 onclick="return confirm('Yakin ingin hapus data ini?')">Hapus</a>
+            </td>
+          </form>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+{% endblock %}

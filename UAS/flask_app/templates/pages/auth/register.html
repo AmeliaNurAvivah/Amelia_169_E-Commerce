@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Register | Sistem Akademik</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #232526, #414345);
+      font-family: Arial, Helvetica, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    .auth-card {
+      background: #1b1b1b;
+      padding: 30px 35px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    }
+
+    .auth-card h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #1E90FF;
+    }
+
+    .auth-card input {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background: #111;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .auth-card input:focus {
+      outline: none;
+      border-color: #1E90FF;
+      box-shadow: 0 0 6px rgba(30,144,255,0.5);
+    }
+
+    .auth-card button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      background: #1E90FF;
+      color: #fff;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .auth-card button:hover {
+      background: #1565C0;
+    }
+
+    .auth-footer {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .auth-footer a {
+      color: #1E90FF;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-card">
+    <h1>Register</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <form action="{{ url_for('auth.register') }}" method="post">
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Register</button>
+    </form>
+
+    <div class="auth-footer">
+      Sudah punya akun?
+      <a href="{{ url_for('auth.login') }}">Login</a>
+    </div>
+  </div>
+
+</body>
+</html>
