@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Sistem Akademik</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="wrapper">
+
+  <aside class="sidebar">
+    <h2 class="sidebar-title">Sistem Akademik</h2>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('main.dashboard') }}" class="sidebar-link">Dashboard</a>
+      <a href="{{ url_for('main.dosen_list') }}" class="sidebar-link">Data Dosen</a>
+      <a href="{{ url_for('main.matakuliah_list') }}" class="sidebar-link">Mata Kuliah</a>
+      <a href="{{ url_for('main.kelas_list') }}" class="sidebar-link">Kelas</a>
+      <a href="{{ url_for('auth.logout_confirm') }}">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+</div>
+
+</body>
+</html>
