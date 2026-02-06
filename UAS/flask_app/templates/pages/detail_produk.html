@@ -1,0 +1,36 @@
+<!-- flask_app/templates/pages/detail_produk.html -->
+{% extends 'layouts/base.html' %}
+{% block content %}
+
+<form class="detail-card" method="post"
+      action="{{ url_for('main.update_produk', produk_id=produk.id) }}"
+      enctype="multipart/form-data">
+
+    <img src="{{ url_for('static', filename=produk.gambar) }}">
+
+    <input name="nama" value="{{ produk.nama }}" required>
+    <input type="number" name="harga" value="{{ produk.harga }}" required>
+    <textarea name="keterangan">{{ produk.keterangan }}</textarea>
+
+    <label class="upload">
+        <i class="fa fa-image"></i> Ganti Gambar
+        <input type="file" name="gambar" hidden>
+    </label>
+
+    <div class="actions">
+        <button class="btn-pastel">Simpan</button>
+
+        <a href="{{ url_for('main.hapus_produk', produk_id=produk.id) }}"
+           class="btn-outline"
+           onclick="return confirm('Hapus produk ini?')">
+           Hapus
+        </a>
+
+        <a href="{{ url_for('main.home') }}" class="btn-outline">
+           Batal
+        </a>
+    </div>
+</form>
+
+
+{% endblock %}

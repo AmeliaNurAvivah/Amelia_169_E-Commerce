@@ -1,0 +1,25 @@
+<!-- flask_app/templates/pages/tambah_produk.html -->
+{% extends 'layouts/base.html' %}
+{% block content %}
+
+<form class="form-card" method="post"
+      action="{{ url_for('main.simpan_produk') }}"
+      enctype="multipart/form-data">
+
+    <h2><i class="fa fa-box"></i> Tambah Produk</h2>
+
+    <input name="nama" placeholder="Nama Produk" required>
+    <input name="kategori" placeholder="Kategori" required>
+    <input name="lokasi" placeholder="Lokasi" required>
+    <input type="number" name="harga" placeholder="Harga" required>
+    <textarea name="keterangan" placeholder="Keterangan produk"></textarea>
+
+    <label class="upload">
+        <i class="fa fa-image"></i> Upload Gambar
+        <input type="file" name="gambar" hidden required>
+    </label>
+
+    <button class="btn-pastel full">Simpan Produk</button>
+</form>
+
+{% endblock %}

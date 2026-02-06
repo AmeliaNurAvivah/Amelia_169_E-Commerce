@@ -1,0 +1,46 @@
+<h2>Riwayat Pesanan</h2>
+
+<table border="1" cellpadding="8" width="100%">
+    <tr>
+        <th>ID</th>
+        <th>Tanggal</th>
+        <th>Total</th>
+        <th>Metode</th>
+        <th>Status</th>
+        <th>Aksi</th>
+    </tr>
+
+    {% for p in pesanan_list %}
+    <tr>
+        <td>{{ p.id }}</td>
+        <td>{{ p.tanggal }}</td>
+        <td>Rp {{ '{:,.0f}'.format(p.total) }}</td>
+        <td>{{ p.metode_pembayaran }}</td>
+        <td>{{ p.status }}</td>
+        <td style="display:flex; gap:6px; align-items:center;">
+    <!-- Detail -->
+    <a href="{{ url_for('main.detail_pesanan', pesanan_id=p.id) }}">Detail</a>
+
+    {% if p.status == 'Menunggu' %}
+        | <a href="{{ url_for('main.ubah_status_pesanan', pesanan_id=p.id, status='Dikemas') }}"
+             onclick="return confirm('Ubah status menjadi Dikemas?')">Dikemas</a>
+    {% elif p.status == 'Dikemas' %}
+        | <a href="{{ url_for('main.ubah_status_pesanan', pesanan_id=p.id, status='Dikirim') }}"
+             onclick="return confirm('Ubah status menjadi Dikirim?')">Kirim</a>
+    {% elif p.status == 'Dikirim' %}
+        | <a href="{{ url_for('main.ubah_status_pesanan', pesanan_id=p.id, status='Selesai') }}"
+             onclick="return confirm('Tandai pesanan sebagai Selesai?')">Selesai</a>
+    {% else %}
+        | <span style="color:green;font-weight:bold;">Selesai</span>
+    {% endif %}
+
+    <!-- Hapus -->
+    <form action="{{ url_for('main.hapus_pesanan', pesanan_id=p.id) }}" method="post" style="display:inline;"
+          onsubmit="return confirm('Yakin ingin menghapus pesanan ini?')">
+        <button type="submit">Hapus</button>
+    </form>
+</td>
+
+    </tr>
+    {% endfor %}
+</table>

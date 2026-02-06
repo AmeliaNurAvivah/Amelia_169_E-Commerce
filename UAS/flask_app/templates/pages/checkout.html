@@ -1,0 +1,137 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+
+<div class="checkout-container">
+
+    <!-- PRODUK DIPESAN -->
+    <div class="card">
+        <h3 class="card-title">Produk Dipesan</h3>
+
+        {% for k in keranjang_list %}
+        <div class="produk-row">
+            <div class="produk-info">
+                <strong>{{ k.nama_produk }}</strong>
+                <small>Variasi: Default</small>
+            </div>
+
+            <div class="produk-harga">
+                Rp {{ '{:,.0f}'.format(k.harga) }}
+            </div>
+
+            <div class="produk-jumlah">
+                {{ k.jumlah }}
+            </div>
+
+            <div class="produk-subtotal">
+                Rp {{ '{:,.0f}'.format(k.subtotal) }}
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- VOUCHER -->
+        <div class="opsi-row">
+            <strong>Voucher Toko</strong>
+            <a href="javascript:void(0)" onclick="openVoucher()">Pilih Voucher</a>
+        </div>
+
+        <!-- PENGIRIMAN -->
+        <div class="opsi-row">
+            <div>
+                <strong>Opsi Pengiriman</strong>
+                <p>Reguler (Garansi tiba)</p>
+            </div>
+            <span>Rp14.000</span>
+        </div>
+    </div>
+
+    <!-- METODE PEMBAYARAN -->
+    <div class="card">
+        <h3 class="card-title">Metode Pembayaran</h3>
+
+        <div class="metode">
+            <span id="selectedPayment">COD - Cek Dulu</span>
+            <a href="javascript:void(0)" onclick="openPayment()">UBAH</a>
+        </div>
+    </div>
+
+    <!-- RINGKASAN -->
+    <div class="card ringkasan">
+        <div class="ringkasan-row">
+            <span>Subtotal Pesanan</span>
+            <span>Rp {{ '{:,.0f}'.format(total) }}</span>
+        </div>
+
+        <div class="ringkasan-row">
+            <span>Subtotal Pengiriman</span>
+            <span>Rp14.000</span>
+        </div>
+
+        <div class="ringkasan-total">
+            <span>Total Pembayaran</span>
+            <span class="harga">
+                Rp {{ '{:,.0f}'.format(total + 14000) }}
+            </span>
+        </div>
+
+        <form method="post" action="{{ url_for('main.buat_pesanan') }}">
+    <button type="submit" class="btn-checkout">
+        Buat Pesanan
+    </button>
+</form>
+
+
+    </div>
+
+</div>
+
+<!-- ================= MODAL VOUCHER ================= -->
+<div id="voucherModal" class="modal">
+    <div class="modal-content">
+        <h3>Pilih Voucher</h3>
+        <p>Belum ada voucher tersedia</p>
+        <button onclick="closeVoucher()">Tutup</button>
+    </div>
+</div>
+
+<!-- ================= MODAL PEMBAYARAN ================= -->
+<div id="paymentModal" class="modal">
+    <div class="modal-content">
+        <h3>Metode Pembayaran</h3>
+
+        <label>
+            <input type="radio" name="payment" value="COD" checked>
+            COD - Bayar di Tempat
+        </label><br>
+
+        <label>
+            <input type="radio" name="payment" value="Transfer">
+            Transfer Bank
+        </label><br><br>
+
+        <button onclick="savePayment()">Simpan</button>
+    </div>
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+function openVoucher() {
+    document.getElementById("voucherModal").style.display = "block";
+}
+function closeVoucher() {
+    document.getElementById("voucherModal").style.display = "none";
+}
+
+function openPayment() {
+    document.getElementById("paymentModal").style.display = "block";
+}
+function savePayment() {
+    const selected = document.querySelector('input[name="payment"]:checked').value;
+    document.getElementById("selectedPayment").innerText = selected;
+    document.getElementById("paymentModal").style.display = "none";
+}
+</script>
+
+{% endblock %}
+
+
+

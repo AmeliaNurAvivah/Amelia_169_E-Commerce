@@ -1,0 +1,20 @@
+<h2>Detail Pesanan</h2>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Nama Produk</th>
+        <th>Harga</th>
+        <th>Jumlah</th>
+        <th>Subtotal</th>
+    </tr>
+    {% for i in items %}
+    <tr>
+        <td>{{ i.nama_produk }}</td>
+        <td>{{ i.harga }}</td>
+        <td>{{ i.jumlah }}</td>
+        <td>{{ i.subtotal }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="{{ url_for('main.riwayat_pesanan') }}">Kembali</a>
